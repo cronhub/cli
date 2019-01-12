@@ -4,7 +4,7 @@ import os
 import configparser
 
 CONFIG_PATH = os.path.join(os.path.expanduser("~"), ".cronhub")
-BASE_URL = "https://cronhub.io"
+BASE_URL = "http://cronhub.local"
 
 @click.group()
 @click.version_option()
@@ -47,9 +47,18 @@ def monitor(uuid, api_key):
 
 @cli.command("ping")
 @click.argument("uuid", type=click.UUID)
-def ping(uuid):
-    """Ping the monitor using UUID."""
-    r = requests.get("%s/ping/%s" % (BASE_URL, uuid))
+@click.option("-s", "--start", is_flag=True, help="Make a /start ping")
+@click.option("-f", "--finish", is_flag=True, help="Make a /finish ping")
+def ping(uuid, start, finish):
+    """Ping the monitor using its UUID."""
+    if start:
+        url = "%s/start/%s" % (BASE_URL, uuid)
+    elif finish:
+        url = "%s/finish/%s" % (BASE_URL, uuid)
+    else:
+        url = "%s/ping/%s" % (BASE_URL, uuid)
+
+    r = requests.get(url)
     click.echo(r.json())
 
 def get_key():
@@ -59,3 +68,5 @@ def get_key():
         return None
     return config.get('crhb', 'api_key')
 
+if __name__ == '__main__':
+    cli()
