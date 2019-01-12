@@ -65,6 +65,5 @@ need to run this command only once!
 cronhub configure --api-key=<your-api-key>
 ```
 ## Contribute
-Cronhub CLI is an open source project and accepts contributions. If you use Cronhub and want to contribute then feel free to open a new pull request. You can find the [source code](https://github.com/cronhub-app/cli) on Github.
-
+If you use Cronhub and want to contribute then feel free to open a new pull request.
 
